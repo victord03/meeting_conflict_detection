@@ -2,6 +2,7 @@ from classes.CDay import CDay
 import numpy as np
 
 class CWeek:
+
     days: dict
 
     def __init__(self):
