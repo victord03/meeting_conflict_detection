@@ -1,5 +1,3 @@
-from multiprocessing.managers import Value
-
 
 class Meeting:
     name: str
@@ -24,6 +22,12 @@ class Meeting:
             raise ValueError
 
         if type(owner) != str:
+            raise ValueError
+
+        if meet_time % 0.5 != 0:
+            raise ValueError
+
+        if duration % 0.5 != 0:
             raise ValueError
 
         self.name = name
