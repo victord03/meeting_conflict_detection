@@ -39,10 +39,10 @@ class ClDay:
 
         for time_slot, meeting_list in self.timeline.items():
 
-            owners_in_current_timeslot = list()
-            concurrent_meetings_in_current_timeslot = list()
+            owners_in_current_timeslot = list()  # gets reset on every time slot iteration
+            concurrent_meetings_in_current_timeslot = list()  # gets reset on every time slot iteration
 
-            if len(meeting_list) != 1:
+            if len(meeting_list) > 1:
 
                 for meet_tuple in meeting_list:
                     # [ (name, owner), (name2, owner2), ... ]
@@ -53,17 +53,21 @@ class ClDay:
                     owners_in_current_timeslot.append(meeting_owner)
 
                     if len(concurrent_meetings_in_current_timeslot) > 1:  # no reason to run iteration if list is empty
+
+                        debug = 1
                         for each_meeting in concurrent_meetings_in_current_timeslot:
-                            if each_meeting not in concurrent_meetings:
-                                result[time_slot] = dict()
-                                result[time_slot]["Meetings"] = list()
-                                result[time_slot]["Meetings"].append(each_meeting)
+                            result[time_slot] = dict()
+                            result[time_slot]["Meetings"] = list()
+                            result[time_slot]["Meetings"].append(each_meeting)
+                            print(result[time_slot]["Meetings"])
 
-                    overbooked_pms_in_this_timeslot = list(set([owner for owner in owners_in_current_timeslot if owners_in_current_timeslot.count(owner) != 1]))
+                            print(debug)
+                            debug += 1
 
-                    if len(overbooked_pms_in_this_timeslot) != 0:  # no reason to run iteration if list is empty
+                    overbooked_pms_in_this_timeslot = list(set([owner for owner in owners_in_current_timeslot if owners_in_current_timeslot.count(owner) > 1]))
+
+                    if len(overbooked_pms_in_this_timeslot) > 0:  # no reason to run iteration if list is empty
                         for pm in overbooked_pms_in_this_timeslot:
-                            if pm not in overbooked_pms:
                                 if result.get(time_slot) is None:
                                     result[time_slot] = dict()
                                 else:
