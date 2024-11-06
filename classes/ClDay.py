@@ -42,6 +42,12 @@ class ClDay:
             owners_in_current_timeslot = list()  # gets reset on every time slot iteration
             concurrent_meetings_in_current_timeslot = list()  # gets reset on every time slot iteration
 
+            # these are created here iteratively, as we cycle through all the indeces of the "timeline" dictionary of
+            # the current day
+            result[time_slot] = dict()
+            result[time_slot]["Meetings"] = list()
+            result[time_slot]["PMs"] = list()
+
             if len(meeting_list) > 1:
 
                 for meet_tuple in meeting_list:
@@ -56,11 +62,10 @@ class ClDay:
 
                         debug = 1
                         for each_meeting in concurrent_meetings_in_current_timeslot:
-                            result[time_slot] = dict()
-                            result[time_slot]["Meetings"] = list()
-                            result[time_slot]["Meetings"].append(each_meeting)
-                            print(result[time_slot]["Meetings"])
 
+                            result[time_slot]["Meetings"].append(each_meeting)
+
+                            print(result[time_slot]["Meetings"])
                             print(debug)
                             debug += 1
 
@@ -68,11 +73,9 @@ class ClDay:
 
                     if len(overbooked_pms_in_this_timeslot) > 0:  # no reason to run iteration if list is empty
                         for pm in overbooked_pms_in_this_timeslot:
-                                if result.get(time_slot) is None:
-                                    result[time_slot] = dict()
-                                else:
-                                    result[time_slot]["PMs"] = list()
+                                if result.get(time_slot) is not None:
                                     result[time_slot]["PMs"].append(pm)
+
             else:
                 # No concurrent meetings
                 pass
