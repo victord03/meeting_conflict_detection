@@ -2,6 +2,7 @@ import numpy as np
 
 
 class ClDay:
+    """Container for one day's meetings per time slot and corresponding meeting owners."""
     name: str
     timeline: dict
 
@@ -50,7 +51,8 @@ class ClDay:
                 list()
             )  # gets reset on every time slot iteration
 
-            # the 3 variables below created here iteratively, as we cycle through all the indeces of the "timeline"
+            # the 3 variables below created here iteratively,
+            # as we cycle through all the indeces of the "timeline"
             # dictionary of the current day
             result[time_slot] = dict()
             result[time_slot]["Meetings"] = list()
