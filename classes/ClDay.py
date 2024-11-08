@@ -3,6 +3,7 @@ import numpy as np
 
 class ClDay:
     """Container for one day's meetings per time slot and corresponding meeting owners."""
+
     name: str
     timeline: dict
 
@@ -96,4 +97,3 @@ class ClDay:
                         result[time_slot]["PMs"].append(pm)
 
         return result
-
