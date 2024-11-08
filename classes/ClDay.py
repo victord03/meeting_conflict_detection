@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class ClDay:
     name: str
     timeline: dict
@@ -42,8 +43,12 @@ class ClDay:
             meeting_list: [ tuple('meet_name', meet_owner'), ... ]
             """
 
-            owners_in_current_timeslot = list()  # gets reset on every time slot iteration
-            concurrent_meetings_in_current_timeslot = list()  # gets reset on every time slot iteration
+            owners_in_current_timeslot = (
+                list()
+            )  # gets reset on every time slot iteration
+            concurrent_meetings_in_current_timeslot = (
+                list()
+            )  # gets reset on every time slot iteration
 
             # the 3 variables below created here iteratively, as we cycle through all the indeces of the "timeline"
             # dictionary of the current day
@@ -65,15 +70,28 @@ class ClDay:
                     concurrent_meetings_in_current_timeslot.append(meeting_name)
                     owners_in_current_timeslot.append(meeting_owner)
 
-            if len(concurrent_meetings_in_current_timeslot) > 1:  # no reason to run iteration if list is empty
+            if (
+                len(concurrent_meetings_in_current_timeslot) > 1
+            ):  # no reason to run iteration if list is empty
                 for each_meeting in concurrent_meetings_in_current_timeslot:
                     result[time_slot]["Meetings"].append(each_meeting)
 
-            overbooked_pms_in_this_timeslot = list(set([owner for owner in owners_in_current_timeslot if owners_in_current_timeslot.count(owner) > 1]))
+            overbooked_pms_in_this_timeslot = list(
+                set(
+                    [
+                        owner
+                        for owner in owners_in_current_timeslot
+                        if owners_in_current_timeslot.count(owner) > 1
+                    ]
+                )
+            )
 
-            if len(overbooked_pms_in_this_timeslot) > 0:  # no reason to run iteration if list is empty
+            if (
+                len(overbooked_pms_in_this_timeslot) > 0
+            ):  # no reason to run iteration if list is empty
                 for pm in overbooked_pms_in_this_timeslot:
-                        if result.get(time_slot) is not None:
-                            result[time_slot]["PMs"].append(pm)
+                    if result.get(time_slot) is not None:
+                        result[time_slot]["PMs"].append(pm)
 
         return result
+
