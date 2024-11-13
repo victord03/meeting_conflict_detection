@@ -1,3 +1,5 @@
+"""Main file for ClDay class"""
+
 import numpy as np
 
 
@@ -20,7 +22,7 @@ class ClDay:
             raise ValueError
 
         if type(duration) != float:
-            raise ValueError
+            raise ValueError(f"'{duration}' not a float ({name})")
 
         if type(owner) != str:
             raise ValueError
@@ -95,5 +97,13 @@ class ClDay:
                 for pm in overbooked_pms_in_this_timeslot:
                     if result.get(time_slot) is not None:
                         result[time_slot]["PMs"].append(pm)
+
+            keys_to_delete = list()
+            for key, value in result.items():
+                if len(value["Meetings"]) == 0 and len(value["PMs"]) == 0:
+                    keys_to_delete.append(key)
+
+            for key in keys_to_delete:
+                del result[key]
 
         return result
