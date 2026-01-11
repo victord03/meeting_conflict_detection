@@ -29,28 +29,12 @@ python3 src/main.py
 
 ## Usage
 
-Define your meetings in `src/main.py`:
+The tool requires two data files in the `data/` folder (not tracked in git for privacy):
 
-```python
-# Define participants
-pm3 = "Kakamanis Victor"
-pm2 = "{PM Name}"
+1. **data/pm_names.py** - Defines project manager/participant names
+2. **data/meeting_names.py** - Defines meeting schedules
 
-# Define meeting (name, start_time, duration, participants)
-meeting = [
-    "Project Kickoff",
-    9.5,  # 9:30 AM
-    1.0,  # 1 hour duration
-    [pm1, pm2]
-]
-
-# Add to calendar
-week = ClWeek()
-week.add_meeting_on_day("Monday", meeting)
-
-# Check for conflicts
-conflicts = week.find_conflicts()
-```
+See the [Data Structure](#data-structure) section below for format details.
 
 Run the detection:
 
@@ -63,14 +47,59 @@ python3 src/main.py
 ```
 meeting_conflict_detection/
 ├── classes/
-│   ├── ClDay.py       # Day container with 30-min time slots
-│   └── ClWeek.py      # Week container managing 5 days
+│   ├── ClDay.py           # Day container with 30-min time slots
+│   └── ClWeek.py          # Week container managing 5 days
+├── data/                  # Not tracked in git (contains sensitive data)
+│   ├── pm_names.py        # Participant names
+│   └── meeting_names.py   # Meeting schedules
 ├── src/
-│   └── main.py        # Conflict checking
+│   └── main.py            # Conflict checking logic
 ├── test/
-│   └── test_main.py   # Test suite
+│   └── test_main.py       # Test suite
 └── README.md
 ```
+
+## Data Structure
+
+To use this tool, create a `data/` folder with two Python files:
+
+### data/pm_names.py
+
+Define participant names as simple string variables:
+
+```python
+"""Participant names for meeting conflict detection"""
+
+pm1 = "John Smith"
+pm2 = "Jane Doe"
+pm3 = "Alice Johnson"
+pmo = "Bob Wilson"
+```
+
+### data/meeting_names.py
+
+Import the participant names and define meetings as a list of 5-element lists:
+
+```python
+"""Meeting schedules for conflict detection"""
+
+from data.pm_names import pm1, pm2, pm3, pmo
+
+# Meeting format: [name, start_time, duration, participant, day]
+# start_time: float (9.0 = 9:00 AM, 9.5 = 9:30 AM, 14.0 = 2:00 PM)
+# duration: float in hours (0.5 = 30min, 1.0 = 1hr, 1.5 = 90min)
+# day: "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+
+list_of_meetings = [
+    ["Project Kickoff", 9.5, 1.0, pm1, "Monday"],
+    ["Team Standup", 10.0, 0.5, pm2, "Monday"],
+    ["Client Review", 14.0, 1.5, pm3, "Tuesday"],
+    ["PMO Sync", 11.0, 0.5, pmo, "Wednesday"],
+    # Add more meetings here...
+]
+```
+
+**Note:** The `data/` folder is gitignored to keep sensitive colleague names and meeting details private.
 
 ## Tech Stack
 
@@ -88,7 +117,7 @@ Time Slot Conflicts:
 - Monday 10:00-11:00: "Project Review" overlaps with "Team Standup"
 
 Participant Double-Booking:
-- Kaklamanis Victor: Double-booked on Tuesday 14:00-15:00 (Meeting X & Meeting Y)
+- John Smith: Double-booked on Tuesday 14:00-15:00 (Meeting X & Meeting Y)
 ```
 
 ## Development
