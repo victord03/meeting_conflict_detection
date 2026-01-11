@@ -33,8 +33,8 @@ Define your meetings in `src/main.py`:
 
 ```python
 # Define participants
-pm1 = "Kalafatis Nikolaos"
-pm2 = "Myrtidis Aris"
+pm3 = "Kakamanis Victor"
+pm2 = "{PM Name}"
 
 # Define meeting (name, start_time, duration, participants)
 meeting = [
@@ -66,7 +66,7 @@ meeting_conflict_detection/
 │   ├── ClDay.py       # Day container with 30-min time slots
 │   └── ClWeek.py      # Week container managing 5 days
 ├── src/
-│   └── main.py        # Meeting definitions and conflict checking
+│   └── main.py        # Conflict checking
 ├── test/
 │   └── test_main.py   # Test suite
 └── README.md
@@ -88,7 +88,7 @@ Time Slot Conflicts:
 - Monday 10:00-11:00: "Project Review" overlaps with "Team Standup"
 
 Participant Double-Booking:
-- Kalafatis Nikolaos: Double-booked on Tuesday 14:00-15:00
+- Kaklamanis Victor: Double-booked on Tuesday 14:00-15:00 (Meeting X & Meeting Y)
 ```
 
 ## Development
